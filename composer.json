@@ -1,6 +1,6 @@
 {
-    "name": "pestphp/pest-plugin-template",
-    "description": "My awesome plugin",
+    "name": "quadraecom/pest-plugin-selectors",
+    "description": "Add CSS selector-based testing capabilities to Pest",
     "keywords": [
         "php",
         "framework",
@@ -8,23 +8,36 @@
         "unit",
         "test",
         "testing",
-        "plugin"
+        "plugin",
+        "css",
+        "selector"
     ],
     "license": "MIT",
     "require": {
         "php": "^7.3 || ^8.0",
+        "ext-dom": "*",
+        "ext-libxml": "*",
+        "laravel/framework": "^7.0 || ^8.0 || ^9.0",
         "pestphp/pest": "^1.0",
-        "pestphp/pest-plugin": "^1.0"
+        "pestphp/pest-plugin": "^1.0",
+        "pestphp/pest-plugin-laravel": "^1.2"
     },
     "autoload": {
         "psr-4": {
-            "Pest\\PluginName\\": "src/"
+            "QuadraEcom\\PestSelectors\\": "src/"
         },
         "files": [
             "src/Autoload.php"
         ]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "orchestra/testbench": "^5.12.1 || ^6.7.2 || ^7.0",
         "pestphp/pest-dev-tools": "dev-master"
     },
     "extra": {
@@ -36,17 +49,12 @@
     "prefer-stable": true,
     "config": {
         "sort-packages": true,
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     },
     "scripts": {
-        "lint": "php-cs-fixer fix -v",
-        "test:lint": "php-cs-fixer fix -v --dry-run",
-        "test:types": "phpstan analyse --ansi",
-        "test:unit": "pest --colors=always",
-        "test": [
-            "@test:lint",
-            "@test:types",
-            "@test:unit"
-        ]
+        "test": "pest --colors=always"
     }
 }
