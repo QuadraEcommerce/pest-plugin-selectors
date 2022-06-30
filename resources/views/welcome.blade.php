@@ -17,10 +17,20 @@
         <li>List item 5</li>
     </ul>
 
-    <div class="foo">
-        <div class="bar">
-            baz
-        </div>
+    <div class="single">
+        <div class="item">a value</div>
+    </div>
+
+    <div class="multiple-same">
+        <div class="item">same value</div>
+        <div class="item">same value</div>
+        <div class="item">same value</div>
+    </div>
+
+    <div class="multiple-different">
+        <div class="item">same value</div>
+        <div class="item">same value</div>
+        <div class="item">different value</div>
     </div>
 </main>
 

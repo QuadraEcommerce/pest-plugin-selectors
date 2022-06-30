@@ -9,5 +9,10 @@ it('adds macros to TestResponse', function (string $name) {
     'getSelectorMatches',
     'assertSelectorContains',
     'assertSelectorsAllContain',
+    'assertSelectorEquals',
+    'assertSelectorNotEquals',
+    'assertSelectorsAllEqual',
+    'assertSelectorsAllNotEqual',
     'assertSelectorAttributeEquals',
+    'assertSelectorAttributeNotEquals',
 ]);

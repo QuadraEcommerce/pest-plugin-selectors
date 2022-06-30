@@ -12,3 +12,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - First version
+
+## [v1.1.0 (2022-06-29)](https://github.com/QuadraEcommerce/pest-plugin-selectors)
+
+### Added
+
+- Added Assertion: `assertSelectorEquals(string $selector, string $value)`
+- Added Assertion: `assertSelectorNotEquals(string $selector, string $value)`
+- Added Assertion: `assertSelectorsAllEqual(string $selector, string $value)`
+- Added Assertion: `assertSelectorsAllNotEqual(string $selector, string $value)`
+- Added Assertion: `assertSelectorAttributeNotEquals(string $selector, string $attribute, $expected)`
