@@ -30,7 +30,8 @@ it('asserts that the selector does not exist')
 it("asserts that the selector matches the expected count")
     ->get('/')
     ->assertSelectorCount('main div.single .item', 1)
-    ->assertSelectorCount('main div.multiple-same .item', 3);
+    ->assertSelectorCount('main div.multiple-same .item', 3)
+    ->assertSelectorCount('main div.multiple-same .does-not-exist', 0);
 
 it("asserts that any of a selector's matches contains a value")
     ->get('/')
