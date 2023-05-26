@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\AssertionFailedError;
+
 it('gets elements matching a selector', function () {
     /** @var DOMNodeList $elements */
     $elements = $this->get('/')
@@ -9,6 +11,27 @@ it('gets elements matching a selector', function () {
         ->toBeInstanceOf(DOMNodeList::class)
         ->toHaveCount(5);
 });
+
+it("throws an exception when the selector doesn't have any matches", function () {
+    $this->expectException(AssertionFailedError::class);
+
+    $this->get('/')
+         ->assertSelectorContains('main div.single .does-not-exist', 'a value');
+});
+
+it('asserts that the selector exists')
+    ->get('/')
+    ->assertSelectorExists('main div.single .item');
+
+it('asserts that the selector does not exist')
+    ->get('/')
+    ->assertSelectorNotExists('main div.single .does-not-exist');
+
+it("asserts that the selector matches the expected count")
+    ->get('/')
+    ->assertSelectorCount('main div.single .item', 1)
+    ->assertSelectorCount('main div.multiple-same .item', 3)
+    ->assertSelectorCount('main div.multiple-same .does-not-exist', 0);
 
 it("asserts that any of a selector's matches contains a value")
     ->get('/')

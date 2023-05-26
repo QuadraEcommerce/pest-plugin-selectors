@@ -7,6 +7,9 @@ it('adds macros to TestResponse', function (string $name) {
         ->toBeTrue();
 })->with([
     'getSelectorMatches',
+    'assertSelectorExists',
+    'assertSelectorNotExists',
+    'assertSelectorCount',
     'assertSelectorContains',
     'assertSelectorsAllContain',
     'assertSelectorEquals',
