@@ -3,6 +3,7 @@
 namespace QuadraEcom\PestSelectors;
 
 use DOMDocument;
+use DOMNode;
 use DOMNodeList;
 use DOMXPath;
 use Illuminate\Support\Str;
@@ -37,6 +38,7 @@ TestResponse::macro('getSelectorMatches', function (string $selector): DOMNodeLi
 });
 
 TestResponse::macro('assertSelectorExists', function (string $selector): TestResponse {
+    /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
 
     if (! count($nodes)) {
@@ -49,6 +51,7 @@ TestResponse::macro('assertSelectorExists', function (string $selector): TestRes
 });
 
 TestResponse::macro('assertSelectorNotExists', function (string $selector): TestResponse {
+    /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
 
     if (count($nodes)) {
@@ -61,6 +64,7 @@ TestResponse::macro('assertSelectorNotExists', function (string $selector): Test
 });
 
 TestResponse::macro('assertSelectorCount', function (string $selector, int $expectedCount): TestResponse {
+    /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
     $actualCount = count($nodes);
 
@@ -74,14 +78,15 @@ TestResponse::macro('assertSelectorCount', function (string $selector, int $expe
 });
 
 TestResponse::macro('assertSelectorContains', function (string $selector, string $value): TestResponse {
+    /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
 
     if (! count($nodes)) {
         PHPUnit::fail("The selector '$selector' was not found in the response.");
     }
 
-    foreach ($nodes as $element) {
-        if (Str::contains($element->textContent, $value)) {
+    foreach ($nodes as $node) {
+        if (Str::contains($node->textContent, $value)) {
             PHPUnit::assertTrue(true);
 
             return $this;
@@ -92,14 +97,15 @@ TestResponse::macro('assertSelectorContains', function (string $selector, string
 });
 
 TestResponse::macro('assertSelectorsAllContain', function (string $selector, string $value): TestResponse {
+    /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
 
     if (! count($nodes)) {
         PHPUnit::fail("The selector '$selector' was not found in the response.");
     }
 
-    foreach ($nodes as $element) {
-        if (! Str::contains($element->textContent, $value)) {
+    foreach ($nodes as $node) {
+        if (! Str::contains($node->textContent, $value)) {
             PHPUnit::fail("The selector '$selector' did not contain the value '$value'.");
         }
     }
@@ -110,14 +116,15 @@ TestResponse::macro('assertSelectorsAllContain', function (string $selector, str
 });
 
 TestResponse::macro('assertSelectorEquals', function (string $selector, string $value): TestResponse {
+    /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
 
     if (! count($nodes)) {
         PHPUnit::fail("The selector '$selector' was not found in the response.");
     }
 
-    foreach ($nodes as $element) {
-        if (trim($element->textContent) === $value) {
+    foreach ($nodes as $node) {
+        if (trim($node->textContent) === $value) {
             PHPUnit::assertTrue(true);
 
             return $this;
@@ -128,14 +135,15 @@ TestResponse::macro('assertSelectorEquals', function (string $selector, string $
 });
 
 TestResponse::macro('assertSelectorsAllEqual', function (string $selector, string $value): TestResponse {
+    /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
 
     if (! count($nodes)) {
         PHPUnit::fail("The selector '$selector' was not found in the response.");
     }
 
-    foreach ($nodes as $element) {
-        if (trim($element->textContent) !== $value) {
+    foreach ($nodes as $node) {
+        if (trim($node->textContent) !== $value) {
             PHPUnit::fail("One or more matches of the selector '$selector' did not equal the value '$value'.");
         }
     }
@@ -146,14 +154,15 @@ TestResponse::macro('assertSelectorsAllEqual', function (string $selector, strin
 });
 
 TestResponse::macro('assertSelectorNotEquals', function (string $selector, string $value): TestResponse {
+    /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
 
     if (! count($nodes)) {
         PHPUnit::fail("The selector '$selector' was not found in the response.");
     }
 
-    foreach ($nodes as $element) {
-        if (trim($element->textContent) !== $value) {
+    foreach ($nodes as $node) {
+        if (trim($node->textContent) !== $value) {
             PHPUnit::assertTrue(true);
 
             return $this;
@@ -164,14 +173,15 @@ TestResponse::macro('assertSelectorNotEquals', function (string $selector, strin
 });
 
 TestResponse::macro('assertSelectorsAllNotEqual', function (string $selector, string $value): TestResponse {
+    /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
 
     if (! count($nodes)) {
         PHPUnit::fail("The selector '$selector' was not found in the response.");
     }
 
-    foreach ($nodes as $element) {
-        if (trim($element->textContent) === $value) {
+    foreach ($nodes as $node) {
+        if (trim($node->textContent) === $value) {
             PHPUnit::fail("One or more matches of the selector '$selector' did equal the value '$value'.");
         }
     }
@@ -182,6 +192,7 @@ TestResponse::macro('assertSelectorsAllNotEqual', function (string $selector, st
 });
 
 TestResponse::macro('assertSelectorAttributeExists', function (string $selector, string $attribute): TestResponse {
+    /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
 
     if (! count($nodes)) {
@@ -194,6 +205,7 @@ TestResponse::macro('assertSelectorAttributeExists', function (string $selector,
 });
 
 TestResponse::macro('assertSelectorAttributeNotExists', function (string $selector, string $attribute): TestResponse {
+    /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
 
     if (count($nodes)) {
@@ -206,12 +218,14 @@ TestResponse::macro('assertSelectorAttributeNotExists', function (string $select
 });
 
 TestResponse::macro('assertSelectorAttributeEquals', function (string $selector, string $attribute, $expected): TestResponse {
+    /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
 
-    if (count($nodes) === 0) {
+    if (! count($nodes)) {
         PHPUnit::fail("The selector '$selector was not found in the response.");
     }
 
+    /** @var DOMNode $firstNode */
     $firstNode = $nodes[0];
 
     PHPUnit::assertEquals($expected, $firstNode->getAttribute($attribute));
@@ -220,12 +234,14 @@ TestResponse::macro('assertSelectorAttributeEquals', function (string $selector,
 });
 
 TestResponse::macro('assertSelectorAttributeNotEquals', function (string $selector, string $attribute, $expected): TestResponse {
+    /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
 
-    if (count($nodes) === 0) {
+    if (! count($nodes)) {
         PHPUnit::fail("The selector '$selector was not found in the response.");
     }
 
+    /** @var DOMNode $firstNode */
     $firstNode = $nodes[0];
 
     PHPUnit::assertNotEquals($expected, $firstNode->getAttribute($attribute));
