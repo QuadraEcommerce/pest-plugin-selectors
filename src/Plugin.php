@@ -39,7 +39,7 @@ TestResponse::macro('getSelectorMatches', function (string $selector): DOMNodeLi
 TestResponse::macro('assertSelectorContains', function (string $selector, string $value): TestResponse {
     $selectorContents = $this->getSelectorMatches($selector);
 
-    if (empty($selectorContents)) {
+    if (! count($selectorContents)) {
         PHPUnit::fail("The selector '$selector' was not found in the response.");
     }
 
@@ -57,7 +57,7 @@ TestResponse::macro('assertSelectorContains', function (string $selector, string
 TestResponse::macro('assertSelectorsAllContain', function (string $selector, string $value): TestResponse {
     $selectorContents = $this->getSelectorMatches($selector);
 
-    if (empty($selectorContents)) {
+    if (! count($selectorContents)) {
         PHPUnit::fail("The selector '$selector' was not found in the response.");
     }
 
@@ -75,7 +75,7 @@ TestResponse::macro('assertSelectorsAllContain', function (string $selector, str
 TestResponse::macro('assertSelectorEquals', function (string $selector, string $value): TestResponse {
     $selectorContents = $this->getSelectorMatches($selector);
 
-    if (empty($selectorContents)) {
+    if (! count($selectorContents)) {
         PHPUnit::fail("The selector '$selector' was not found in the response.");
     }
 
@@ -93,7 +93,7 @@ TestResponse::macro('assertSelectorEquals', function (string $selector, string $
 TestResponse::macro('assertSelectorsAllEqual', function (string $selector, string $value): TestResponse {
     $selectorContents = $this->getSelectorMatches($selector);
 
-    if (empty($selectorContents)) {
+    if (! count($selectorContents)) {
         PHPUnit::fail("The selector '$selector' was not found in the response.");
     }
 
@@ -111,7 +111,7 @@ TestResponse::macro('assertSelectorsAllEqual', function (string $selector, strin
 TestResponse::macro('assertSelectorNotEquals', function (string $selector, string $value): TestResponse {
     $selectorContents = $this->getSelectorMatches($selector);
 
-    if (empty($selectorContents)) {
+    if (! count($selectorContents)) {
         PHPUnit::fail("The selector '$selector' was not found in the response.");
     }
 
@@ -129,7 +129,7 @@ TestResponse::macro('assertSelectorNotEquals', function (string $selector, strin
 TestResponse::macro('assertSelectorsAllNotEqual', function (string $selector, string $value): TestResponse {
     $selectorContents = $this->getSelectorMatches($selector);
 
-    if (empty($selectorContents)) {
+    if (! count($selectorContents)) {
         PHPUnit::fail("The selector '$selector' was not found in the response.");
     }
 
