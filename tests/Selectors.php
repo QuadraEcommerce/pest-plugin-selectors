@@ -59,10 +59,18 @@ it("asserts that all of a selector's matches do not equal a value")
     ->get('/')
     ->assertSelectorsAllNotEqual('main div.multiple-same .item', 'not the value');
 
-it("asserts that a selector match's attribute equals a value")
+it("asserts that an attribute exists on any of a selector's matches")
     ->get('/')
-    ->assertSelectorAttributeEquals('footer', 'data-foo', 'bar');
+    ->assertSelectorAttributeExists('main ul li', 'data-foo');
 
-it("asserts that a selector match's attribute does not equal a value")
+it("asserts that an attribute does not exist on any of a selector's matches")
     ->get('/')
-    ->assertSelectorAttributeNotEquals('footer', 'data-foo', 'not the value');
+    ->assertSelectorAttributeNotExists('main ul li', 'data-does-not-exist');
+
+it("asserts that an attribute equals a value on any of a selector's matches")
+    ->get('/')
+    ->assertSelectorAttributeEquals('main ul li', 'data-foo', 'bar');
+
+it("asserts that an attribute does not equal a value on any of a selector's matches")
+    ->get('/')
+    ->assertSelectorAttributeNotEquals('main ul li', 'data-foo', 'not the value');
