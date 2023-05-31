@@ -16,6 +16,8 @@ it('adds macros to TestResponse', function (string $name) {
     'assertSelectorNotEquals',
     'assertSelectorsAllEqual',
     'assertSelectorsAllNotEqual',
+    'assertSelectorAttributeExists',
+    'assertSelectorAttributeNotExists',
     'assertSelectorAttributeEquals',
     'assertSelectorAttributeNotEquals',
 ]);
