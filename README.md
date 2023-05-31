@@ -17,9 +17,10 @@ Using the following response body:
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>pest-plugin-selectors test view</title>
+    <title>quadraecom/pest-plugin-selectors test view</title>
 </head>
 <body>
 
@@ -29,7 +30,7 @@ Using the following response body:
         <li>List item 2</li>
         <li>List item 3</li>
         <li>List item 4</li>
-        <li>List item 5</li>
+        <li data-foo="bar">List item 5</li>
     </ul>
 
     <div class="single">
@@ -58,6 +59,8 @@ Using the following response body:
 The following tests will all pass:
 
 ```php
+use PHPUnit\Framework\AssertionFailedError;
+
 it('gets elements matching a selector', function () {
     /** @var DOMNodeList $elements */
     $elements = $this->get('/')
@@ -115,27 +118,36 @@ it("asserts that all of a selector's matches do not equal a value")
     ->get('/')
     ->assertSelectorsAllNotEqual('main div.multiple-same .item', 'not the value');
 
-it("asserts that a selector match's attribute equals a value")
+it("asserts that an attribute exists on any of a selector's matches")
     ->get('/')
-    ->assertSelectorAttributeEquals('footer', 'data-foo', 'bar');
+    ->assertSelectorAttributeExists('main ul li', 'data-foo');
 
-it("asserts that a selector match's attribute does not equal a value")
+it("asserts that an attribute does not exist on any of a selector's matches")
     ->get('/')
-    ->assertSelectorAttributeNotEquals('footer', 'data-foo', 'not the value');
+    ->assertSelectorAttributeNotExists('main ul li', 'data-does-not-exist');
+
+it("asserts that an attribute equals a value on any of a selector's matches")
+    ->get('/')
+    ->assertSelectorAttributeEquals('main ul li', 'data-foo', 'bar');
+
+it("asserts that an attribute does not equal a value on any of a selector's matches")
+    ->get('/')
+    ->assertSelectorAttributeNotEquals('main ul li', 'data-foo', 'not the value');
 ```
 
 ---
 
-> If you want to start testing your application with Pest, visit the main **[Pest Repository](https://github.com/pestphp/pest)**.
+> If you want to start testing your application with Pest, visit the main
+> **[Pest Repository](https://github.com/pestphp/pest)**.
 
 ### Package Author
 
-This package was created and is maintained by [Quadra Ecommerce](https://github.com/QuadraEcommerce).
+This package was created and is maintained by [Quadra, Inc](https://github.com/QuadraEcommerce).
 
-- Website: **[QuadraEcom.com](https://quadraecom.com)**
+- Website: **[GoQuadra.com](https://goquadra.com)**
 - GitHub: **[QuadraEcommerce](https://github.com/QuadraEcommerce)**
 
-[The original test assertions](src/Plugin.php) were based on code originally written
+[The test assertions](src/Plugin.php) were inspired by code written
 by [Liam Hammett (@ImLiam)](https://github.com/ImLiam) that can be found in
 [this post on his blog](https://liamhammett.com/laravel-testing-css-selector-assertion-macros-D9o0YAQJ).
 *Thank you, Liam!* 🙌🏻
