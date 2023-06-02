@@ -86,7 +86,7 @@ TestResponse::macro('assertSelectorContains', function (string $selector, $value
     }
 
     foreach ($nodes as $node) {
-        if (Str::contains($node->textContent, (string) $value)) {
+        if ((string) $value === '' || Str::contains($node->textContent, (string) $value)) {
             PHPUnit::assertTrue(true);
 
             return $this;
@@ -105,7 +105,7 @@ TestResponse::macro('assertSelectorsAllContain', function (string $selector, $va
     }
 
     foreach ($nodes as $node) {
-        if (! Str::contains($node->textContent, (string) $value)) {
+        if ((string) $value !== '' && ! Str::contains($node->textContent, (string) $value)) {
             PHPUnit::fail("The selector '$selector' did not contain the value '$value'.");
         }
     }
