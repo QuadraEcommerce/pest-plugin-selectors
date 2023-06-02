@@ -8,6 +8,7 @@ use DOMXPath;
 use Illuminate\Support\Str;
 use Illuminate\Testing\Assert as PHPUnit;
 use Illuminate\Testing\TestResponse;
+use PHPUnit\Framework\ExpectationFailedException;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
 // The functions below are inspired by the functions found at the following URL:
@@ -62,13 +63,13 @@ TestResponse::macro('assertSelectorNotExists', function (string $selector): Test
     return $this;
 });
 
-TestResponse::macro('assertSelectorCount', function (string $selector, int $expectedCount): TestResponse {
+TestResponse::macro('assertSelectorCount', function (string $selector, int $count): TestResponse {
     /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
     $actualCount = count($nodes);
 
-    if ($actualCount !== $expectedCount) {
-        PHPUnit::fail("The selector '$selector' has a count of $actualCount, not the expected count of $expectedCount.");
+    if ($actualCount !== $count) {
+        PHPUnit::fail("The selector '$selector' has a count of $actualCount, not the expected count of $count.");
     }
 
     PHPUnit::assertTrue(true);
@@ -228,7 +229,7 @@ TestResponse::macro('assertSelectorAttributeNotExists', function (string $select
     return $this;
 });
 
-TestResponse::macro('assertSelectorAttributeEquals', function (string $selector, string $attribute, $expected): TestResponse {
+TestResponse::macro('assertSelectorAttributeEquals', function (string $selector, string $attribute, $value): TestResponse {
     /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
 
@@ -237,17 +238,21 @@ TestResponse::macro('assertSelectorAttributeEquals', function (string $selector,
     }
 
     foreach ($nodes as $node) {
-        if ($node->getAttribute($attribute) === $expected) {
-            PHPUnit::assertTrue(true);
-
-            return $this;
+        try {
+            PHPUnit::assertEquals($value, $node->getAttribute($attribute));
+        } catch (ExpectationFailedException $e) {
+            continue;
         }
+
+        PHPUnit::assertTrue(true);
+
+        return $this;
     }
 
-    PHPUnit::fail("None of the matches of selector '$selector' have an attribute '$attribute' that equals the value '$expected'.");
+    PHPUnit::fail("None of the matches of selector '$selector' have an attribute '$attribute' that equals the value '$value'.");
 });
 
-TestResponse::macro('assertSelectorAttributeNotEquals', function (string $selector, string $attribute, $expected): TestResponse {
+TestResponse::macro('assertSelectorAttributeNotEquals', function (string $selector, string $attribute, $value): TestResponse {
     /** @var DOMNodeList $nodes */
     $nodes = $this->getSelectorMatches($selector);
 
@@ -256,8 +261,12 @@ TestResponse::macro('assertSelectorAttributeNotEquals', function (string $select
     }
 
     foreach ($nodes as $node) {
-        if ($node->getAttribute($attribute) === $expected) {
-            PHPUnit::fail("One of the matches of selector '$selector' has an attribute '$attribute' that equals the value '$expected'.");
+        try {
+            PHPUnit::assertEquals($value, $node->getAttribute($attribute));
+
+            PHPUnit::fail("One of the matches of selector '$selector' has an attribute '$attribute' that equals the value '$value'.");
+        } catch (ExpectationFailedException $e) {
+            continue;
         }
     }
 
