@@ -11,27 +11,45 @@
 
 <main>
     <ul>
-        <li>List item 1</li>
-        <li>List item 2</li>
-        <li>List item 3</li>
-        <li>List item 4</li>
-        <li data-foo="bar">List item 5</li>
+        <li>List item 1 (999)</li>
+        <li>List item 2 (999)</li>
+        <li>List item 3 (999)</li>
+        <li data-int="1234">List item 4 (999)</li>
+        <li data-foo="bar">List item 5 (999)</li>
     </ul>
 
-    <div class="single">
+    <div class="single-string">
         <div class="item">a value</div>
     </div>
 
-    <div class="multiple-same">
+    <div class="single-int">
+        <div class="item">1234</div>
+    </div>
+
+    <div class="multiple-same-string">
         <div class="item">same value</div>
         <div class="item">same value</div>
         <div class="item">same value</div>
     </div>
 
-    <div class="multiple-different">
+    <div class="multiple-different-string">
         <div class="item">same value</div>
         <div class="item">same value</div>
         <div class="item">different value</div>
+    </div>
+
+    <div class="int-value">1234</div>
+
+    <div class="multiple-same-int">
+        <div class="item">1234</div>
+        <div class="item">1234</div>
+        <div class="item">1234</div>
+    </div>
+
+    <div class="multiple-different-int">
+        <div class="item">1234</div>
+        <div class="item">1234</div>
+        <div class="item">2345</div>
     </div>
 </main>
 
